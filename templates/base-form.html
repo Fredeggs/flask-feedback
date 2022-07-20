@@ -1,0 +1,26 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+
+{% block precontent %}{% endblock %}
+<h1 class="display-2">{% block header %}{% endblock %}</h1>
+<p class="lead">{% block subheader %}{% endblock %}</p>
+
+<form method="POST">
+  {{ form.hidden_tag() }}
+
+  {% for field in form if field.widget.input_type != 'hidden' %}
+  <p>
+    {{ field.label }}
+    {{ field(class_="form-control") }}
+
+    {% for error in field.errors %}
+    <span class="form-text text-danger">{{ error }}</span>
+    {% endfor %}
+  </p>
+  {% endfor %}
+
+  <button class="btn btn-success">{% block button_text %}{% endblock %}</button>
+
+</form>
+{% endblock %}

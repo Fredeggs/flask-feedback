@@ -1,0 +1,43 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+<div class="container">
+    <h1>{{user.username}}</h1>
+    {% if session['username'] == user.username %}
+    <form style="display: inline" action="/users/{{user.username}}/delete" method="post">
+        <button class="btn btn-sm btn-danger">Delete Account</button>
+    </form>
+    {% endif %}
+    <ul>
+      <li>{{user.first_name}}</li>
+      <li>{{user.last_name}}</li>
+      <li>{{user.email}}</li>
+    </ul>
+  </div>
+
+<div>
+    {% for feedback in feedbacks %}
+    <div class="card my-4">
+      <div class="card-body">
+        <h5 class="card-title text-info">
+          {{feedback.title}}
+          {% if session['username'] == feedback.username %}
+          <form style="display: inline" action="/feedback/{{feedback.id}}/delete" method="post">
+            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+          </form>
+          <form style="display: inline" action="/feedback/{{feedback.id}}/update">
+            <button class="btn btn-sm btn-info"><i class="fas fa-pen"></i></button>
+          </form>
+          {% endif %}
+        </h5>
+        <p class="card-text">{{feedback.content}}</p>
+      </div>
+    </div>
+    {% endfor %}
+    {% if session['username'] == user.username %}
+    <a href="/users/{{user.username}}/add" class="btn btn-success">Add Feedback</a>
+    {% endif %}
+</div>
+
+
+{% endblock %}
